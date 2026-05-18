@@ -23,6 +23,7 @@ from 'react-toastify'
 
 import { Link, useNavigate }
 from 'react-router-dom'
+import axios from 'axios'
 
 function Register() {
 
@@ -67,15 +68,18 @@ function Register() {
 
       onError: (error) => {
 
-         const responseErrors =
-            error.response?.data?.errors
+         const responseErrors = axios.isAxiosError(error)
 
          if (!responseErrors) return
 
          Object.keys(responseErrors).forEach(
             (field) => {
 
-               setError(field, {
+               setError(field as
+        | 'name'
+        | 'email'
+        | 'password'
+        | 'password_confirmation', {
 
                   type: 'server',
 

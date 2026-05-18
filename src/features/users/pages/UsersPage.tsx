@@ -5,10 +5,6 @@ import UserTable from '../components/UserTable'
 
 import { useUsers } from '../hooks/useUsers'
 
-import { useCreateUser } from '../hooks/useCreateUser'
-
-import { useUpdateUser } from '../hooks/useUpdateUser'
-
 import { useDeleteUser } from '../hooks/useDeleteUser'
 
 import { useDebounce } from '../../../shared/hooks/useDebounce'
@@ -20,9 +16,7 @@ from '../../auth/components/LogoutButton'
 
 function UsersPage() {
 
-    const [editingUser, setEditingUser] =
-        useState(null)
-    const [page, setPage] = useState(1)
+    const [page] = useState(1)
 
     const [search, setSearch] = useState('')
 
@@ -37,34 +31,12 @@ function UsersPage() {
     })
 
 
-    const createMutation = useCreateUser()
-
-    const updateMutation = useUpdateUser()
 
     const deleteMutation = useDeleteUser()
 
-    const users = data?.data || []
+    const users = (data as any)?.data || []
 
-    const handleSubmit = async (formData) => {
 
-        if (editingUser) {
-
-            await updateMutation.mutateAsync({
-
-                id: editingUser.id,
-
-                data: formData
-            })
-
-            setEditingUser(null)
-
-        } else {
-
-            await createMutation.mutateAsync(
-                formData
-            )
-        }
-    }
 
     const handleDelete = async (id) => {
 
@@ -115,7 +87,9 @@ function UsersPage() {
 
                 users={users}
 
-                onEdit={setEditingUser}
+                onEdit={(id) =>
+                    console.log('Edit user', id)
+                }
 
                 onDelete={handleDelete}
             />

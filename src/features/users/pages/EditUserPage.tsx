@@ -26,10 +26,12 @@ function EditUserPage() {
    const updateMutation =
       useUpdateUser()
 
-   const { data } = useUsers({})
+   const { data } = useUsers({
+    page: 1,
+    search: '',
+})
 
-   const users =
-      data?.data || []
+   const users = (data as any)?.data || []
 
    const user = users.find(
       (item) =>
