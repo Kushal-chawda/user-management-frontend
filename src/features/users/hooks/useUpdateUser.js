@@ -1,0 +1,23 @@
+import { useMutation } from '@tanstack/react-query'
+
+import { useQueryClient } from '@tanstack/react-query'
+
+import { updateUser } from '../api/userApi'
+
+export const useUpdateUser = () => {
+
+   const queryClient = useQueryClient()
+
+   return useMutation({
+
+      mutationFn: updateUser,
+
+      onSuccess: () => {
+
+         queryClient.invalidateQueries({
+
+            queryKey: ['users']
+         })
+      }
+   })
+}
